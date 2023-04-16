@@ -10,7 +10,7 @@
     "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
     "server": "node ./server/dist/server.js",
     "start-frontend": "cd client && npm start",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start-frontend\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\""
   },
   "engines": {
     "node": "18.12.1"
