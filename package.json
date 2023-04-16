@@ -2,15 +2,14 @@
   "name": "keeper_v2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "install-server": "cd server && npm install",
     "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
     "server": "node ./server/dist/server.js",
-    "start-frontend": "cd client && npm start",
-    "start": "concurrently --kill-others-on-fail \"npm run server\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
   },
   "engines": {
     "node": "18.12.1"
