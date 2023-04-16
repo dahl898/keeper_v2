@@ -40,10 +40,10 @@ import './passport/config'
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join('../client/build')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.join(path.resolve('../client/build')))
+  res.sendFile(path.resolve(__dirname, '../client/build', "index.html"))
 });
 
 app.get('/api', auth, async (req: Request, res: Response) => {

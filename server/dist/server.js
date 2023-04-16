@@ -70,9 +70,9 @@ app.use((0, express_session_1.default)({
 require("./passport/config");
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-app.use(express_1.default.static(path_1.default.join('../client/build')));
+app.use(express_1.default.static(path_1.default.resolve(__dirname, '../client/build')));
 app.get('*', (req, res) => {
-    res.sendFile(path_1.default.join(path_1.default.resolve('../client/build')));
+    res.sendFile(path_1.default.resolve(__dirname, '../client/build', "index.html"));
 });
 app.get('/api', middlewares_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
