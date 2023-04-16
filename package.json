@@ -1,0 +1,16 @@
+{
+  "name": "keeper_v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/dist/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "18.12.1"
+  },
+  "author": "Vladyslav Makota",
+  "license": "ISC"
+}
