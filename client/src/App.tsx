@@ -12,7 +12,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchData = async () => {
-    const response = await fetch('https://aqueous-reef-83032.herokuapp.com/login',  {
+    const response = await fetch(`http://localhost:${process.env.PORT}/login`,  {
       method: 'GET',
       mode: 'cors',
       credentials: 'include'
