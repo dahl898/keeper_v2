@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/dist/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=FALSE cd client && npm install && npm run build"
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "server": "node ./server/dist/server.js",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
   },
   "engines": {
     "node": "18.12.1"
