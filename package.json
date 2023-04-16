@@ -14,5 +14,8 @@
     "node": "18.12.1"
   },
   "author": "Vladyslav Makota",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
 }
