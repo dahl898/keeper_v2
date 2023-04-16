@@ -51,7 +51,7 @@ const path_1 = __importDefault(require("path"));
 const Account = config_1.default.models.Account;
 const User = config_1.default.models.User;
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
     credentials: true
 }));
