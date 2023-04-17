@@ -9,7 +9,7 @@ function Page() {
 const [notes, setNotes] = useState<TNote[]>([])
 
 const addNote = async (newNote: TNote): Promise<void> => {
-  const data = await fetch('http://localhost:5000/api', {
+  const data = await fetch('/api', {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -24,7 +24,7 @@ const addNote = async (newNote: TNote): Promise<void> => {
 
 const deleteNote = async (note: TNote): Promise<void> => {
   console.log('delete clicked')
-  await fetch('http://localhost:5000/api', {
+  await fetch('/api', {
     method: 'DELETE',
     mode: 'cors',
     credentials: 'include',
@@ -38,7 +38,7 @@ const deleteNote = async (note: TNote): Promise<void> => {
 }
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:5000/api', {
+    const response = await fetch('/api', {
       credentials: 'include'
     })
     .then (response => response.json())

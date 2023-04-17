@@ -17,7 +17,7 @@ const Account = connection.models.Account;
 const User = connection.models.User;
 
 app.use(cors({
-  origin: '*',
+  origin: 'http://localhost:5000',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   credentials: true
 }));
@@ -43,7 +43,7 @@ app.use(passport.session());
 app.use(express.static(path.resolve(__dirname, '../../client/build')));
 
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, '../../client/build', "index.html"))
+  res.sendFile(path.resolve(__dirname, '../../client/build'))
 });
 
 app.get('/api', auth, async (req: Request, res: Response) => {

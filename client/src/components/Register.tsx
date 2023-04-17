@@ -17,7 +17,7 @@ function Register(){
 
   async function handleSubmit(){
     setExists(false);
-    await fetch('http://localhost:5000/register', {
+    await fetch('/register', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',

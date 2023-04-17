@@ -51,7 +51,7 @@ const path_1 = __importDefault(require("path"));
 const Account = config_1.default.models.Account;
 const User = config_1.default.models.User;
 app.use((0, cors_1.default)({
-    origin: '*',
+    origin: 'http://localhost:5000',
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
     credentials: true
 }));
@@ -72,7 +72,7 @@ app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use(express_1.default.static(path_1.default.resolve(__dirname, '../../client/build')));
 app.get('*', (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, '../../client/build', "index.html"));
+    res.sendFile(path_1.default.resolve(__dirname, '../../client/build'));
 });
 app.get('/api', middlewares_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
