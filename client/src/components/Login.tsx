@@ -11,7 +11,7 @@ function Login({ auth } : {auth: Function}) {
   const [failedAuth, setFailedAuth] = useState(false);
 
   async function handleSubmit(){
-    await fetch('http://localhost:5000/login', {
+    await fetch('/login', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',

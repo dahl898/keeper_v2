@@ -9,14 +9,11 @@
     "install-server": "cd server && npm install",
     "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
     "server": "node ./server/dist/server.js",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
+    "start": "npm run server"
   },
   "engines": {
     "node": "18.12.1"
   },
   "author": "Vladyslav Makota",
-  "license": "ISC",
-  "dependencies": {
-    "concurrently": "^8.0.1"
-  }
+  "license": "ISC"
 }
