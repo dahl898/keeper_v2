@@ -9,7 +9,7 @@ function Page({ setIsAuth } : {setIsAuth: Function}) {
 const [notes, setNotes] = useState<TNote[]>([])
 
 const addNote = async (newNote: TNote): Promise<void> => {
-  await fetch('/api', {
+  const response = await fetch('/api', {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -18,11 +18,11 @@ const addNote = async (newNote: TNote): Promise<void> => {
         },
         body: JSON.stringify(newNote)
       })
-    .then(() => setNotes((prevNotes) => {
+    const data = await response.json()
+    setNotes((prevNotes) => {
       console.log('usestate hook')
-      return [...prevNotes, newNote]
-    }))
-      
+      return [...prevNotes, data]
+    })      
   }
 
 const deleteNote = async (note: TNote): Promise<void> => {

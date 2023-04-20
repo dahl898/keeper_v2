@@ -47,11 +47,10 @@ const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const passport_1 = __importDefault(require("passport"));
 const middlewares_1 = require("./middlewares/middlewares");
 const authFunctions_1 = require("./utils/authFunctions");
-const path_1 = __importDefault(require("path"));
 const Account = config_1.default.models.Account;
 const User = config_1.default.models.User;
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:5000',
+    origin: 'http://localhost:3000',
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
     credentials: true
 }));
@@ -70,10 +69,10 @@ app.use((0, express_session_1.default)({
 require("./passport/config");
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-app.use(express_1.default.static(path_1.default.resolve(__dirname, '../../client/build')));
-app.get('*', (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, '../../client/build'));
-});
+// app.use(express.static(path.resolve(__dirname, '../../client/build')));
+// app.get('*', (req: Request, res: Response) => {
+//   res.sendFile(path.resolve(__dirname, '../../client/build'))
+// });
 app.get('/api', middlewares_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const doc = yield Account.findOne({ username: (_a = req.user) === null || _a === void 0 ? void 0 : _a.username });
@@ -119,10 +118,9 @@ app.get('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b, _c, _d;
     const id = crypto_1.default.randomBytes(16).toString('hex');
-    const data = Object.assign(Object.assign({}, req.body), { _id: id });
+    const data = yield Object.assign(Object.assign({}, req.body), { _id: id });
     const exAccount = yield Account.findOneAndUpdate({ username: (_b = req.user) === null || _b === void 0 ? void 0 : _b.username }, { $push: { notes: data } });
     if (exAccount) {
-        // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
         res.send(JSON.stringify(data));
     }
     else {
@@ -136,14 +134,12 @@ app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }]
         });
         yield account.save();
-        // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
         res.send(JSON.stringify(account.notes));
     }
 }));
 app.delete('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _e;
     const result = yield Account.findOneAndUpdate({ username: (_e = req.user) === null || _e === void 0 ? void 0 : _e.username }, { $pull: { notes: { _id: req.body._id } } });
-    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
     res.send();
 }));
 const port = process.env.PORT;

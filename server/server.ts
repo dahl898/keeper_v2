@@ -17,7 +17,7 @@ const Account = connection.models.Account;
 const User = connection.models.User;
 
 app.use(cors({
-  origin: 'http://localhost:5000', //change before build to 'http://localhost:5000'
+  origin: 'http://localhost:3000', //change before build to 'http://localhost:5000'
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   credentials: true
 }));
@@ -94,11 +94,9 @@ app.get('/logout', async (req: Request, res: Response) => {
 
 app.post('/api', async (req: Request, res: Response): Promise<void> => {
   const id = crypto.randomBytes(16).toString('hex')
-  const data: TNote = {...req.body, _id: id}
+  const data: TNote = await {...req.body, _id: id}
   const exAccount: TAccount | null = await Account.findOneAndUpdate({username: req.user?.username}, {$push: {notes: data}})
   if (exAccount){
-    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
-    
     res.send(JSON.stringify(data));
   }else{
     console.log(req.user?.username)
@@ -111,14 +109,12 @@ app.post('/api', async (req: Request, res: Response): Promise<void> => {
       }]
     })
     await account.save()
-    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
     res.send(JSON.stringify(account.notes));
   }
 });
 
 app.delete('/api', async (req: Request, res: Response) => {
   const result = await Account.findOneAndUpdate({username: req.user?.username}, {$pull: {notes: {_id: req.body._id}}});
-  // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
   res.send();
 });
 
