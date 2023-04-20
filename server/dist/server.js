@@ -106,19 +106,29 @@ app.get('/login-success', (req, res) => {
 app.get('/login-failure', (req, res) => {
     res.send(JSON.stringify({ iaAuth: false, failed: true }));
 });
+app.get('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.logout((err) => {
+        if (err) {
+            res.send(JSON.stringify({ logout: false }));
+        }
+        else {
+            res.send(JSON.stringify({ logout: true }));
+        }
+    });
+}));
 app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d, _e, _f;
+    var _b, _c, _d;
     const id = crypto_1.default.randomBytes(16).toString('hex');
     const data = Object.assign(Object.assign({}, req.body), { _id: id });
     const exAccount = yield Account.findOneAndUpdate({ username: (_b = req.user) === null || _b === void 0 ? void 0 : _b.username }, { $push: { notes: data } });
     if (exAccount) {
-        const doc = yield Account.findOne({ username: (_c = req.user) === null || _c === void 0 ? void 0 : _c.username });
-        res.send(JSON.stringify(doc === null || doc === void 0 ? void 0 : doc.notes));
+        // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+        res.send(JSON.stringify(data));
     }
     else {
-        console.log((_d = req.user) === null || _d === void 0 ? void 0 : _d.username);
+        console.log((_c = req.user) === null || _c === void 0 ? void 0 : _c.username);
         const account = new Account({
-            username: (_e = req.user) === null || _e === void 0 ? void 0 : _e.username,
+            username: (_d = req.user) === null || _d === void 0 ? void 0 : _d.username,
             notes: [{
                     _id: id,
                     title: req.body.title,
@@ -126,15 +136,15 @@ app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }]
         });
         yield account.save();
-        const doc = yield Account.findOne({ username: (_f = req.user) === null || _f === void 0 ? void 0 : _f.username });
-        res.send(JSON.stringify(doc === null || doc === void 0 ? void 0 : doc.notes));
+        // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+        res.send(JSON.stringify(account.notes));
     }
 }));
 app.delete('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _g, _h;
-    yield Account.findOneAndUpdate({ username: (_g = req.user) === null || _g === void 0 ? void 0 : _g.username }, { $pull: { notes: { _id: req.body._id } } });
-    const doc = yield Account.findOne({ username: (_h = req.user) === null || _h === void 0 ? void 0 : _h.username });
-    res.send(doc === null || doc === void 0 ? void 0 : doc.notes);
+    var _e;
+    const result = yield Account.findOneAndUpdate({ username: (_e = req.user) === null || _e === void 0 ? void 0 : _e.username }, { $pull: { notes: { _id: req.body._id } } });
+    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+    res.send();
 }));
 const port = process.env.PORT;
 app.listen(port || 5000, () => {

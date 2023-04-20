@@ -64,7 +64,7 @@ function Register(){
     registered ? (
       <App />
     ) : 
-    (<div className='login'>
+    (<div className='register'>
       <div>
       <h1>Sign up!</h1>
       <form>
@@ -87,6 +87,10 @@ function Register(){
         {!match && <p className="warning">Passwords do not match!</p>}
         <div>
          {check === '' || credentials.password === '' || credentials.username === '' || !match ? <button type='button' className='login-btn' disabled>Submit</button> : <button type='button' className='login-btn' onClick={handleSubmit}>Submit</button>}
+        <div className='login-link'>
+        <a onClick={() => setRegistered(true)}>Go back to login page</a>
+        {/* <button type="button" onClick={() => setRegistered(false)}>Register</button> */}
+        </div>
         </div>
         </form>
         </div>

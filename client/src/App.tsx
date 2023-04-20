@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Note from './components/Note';
 import { TNote } from './interfaces/interfaces';
 import CreateArea from './components/CreateArea';
-import Header from './components/Header'
-import Login from './components/Login'
-import Page from './components/Page'
+import Header from './components/Header';
+import Login from './components/Login';
+import Page from './components/Page';
 
 function App() {
 
@@ -31,7 +31,7 @@ function App() {
     )
   }else if (isAuth) {
     return(
-      <Page />
+      <Page setIsAuth={setIsAuth}/>
     )
   }else{
     return(

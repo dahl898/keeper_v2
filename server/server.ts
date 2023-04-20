@@ -17,7 +17,7 @@ const Account = connection.models.Account;
 const User = connection.models.User;
 
 app.use(cors({
-  origin: 'http://localhost:5000',
+  origin: 'http://localhost:5000', //change before build to 'http://localhost:5000'
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   credentials: true
 }));
@@ -58,12 +58,12 @@ app.get('/login', auth, (req: Request, res: Response) => {
 app.post('/login', passport.authenticate('local', {successRedirect: 'login-success', failureRedirect: 'login-failure'}), (req: Request, res: Response) => {})
 
 app.post('/register', async (req: Request, res: Response) => {
-  const exUser = await User.findOne({username: req.body.username})
+  const exUser: TUser | null = await User.findOne({username: req.body.username})
   if (exUser) {
     res.send(JSON.stringify({isAuth: false, msg: 'Account with such username already exists'}))
   }else{
     const saltHash = genPassword(req.body.password)
-    const user = new User({
+    const user = new User <TUser>({
       username: req.body.username,
       hash: saltHash.hash,
       salt: saltHash.salt
@@ -82,13 +82,24 @@ app.get('/login-failure', (req: Request, res: Response) => {
   res.send(JSON.stringify({iaAuth: false, failed: true}))
 })
 
+app.get('/logout', async (req: Request, res: Response) => {
+  req.logout((err) => {
+    if(err){
+    res.send(JSON.stringify({logout: false}))
+  }else{
+    res.send(JSON.stringify({logout: true}))
+  }
+  })
+});
+
 app.post('/api', async (req: Request, res: Response): Promise<void> => {
   const id = crypto.randomBytes(16).toString('hex')
-  const data = {...req.body, _id: id}
-  const exAccount = await Account.findOneAndUpdate({username: req.user?.username}, {$push: {notes: data}})
+  const data: TNote = {...req.body, _id: id}
+  const exAccount: TAccount | null = await Account.findOneAndUpdate({username: req.user?.username}, {$push: {notes: data}})
   if (exAccount){
-    const doc: TAccount | null = await Account.findOne({username: req.user?.username})
-    res.send(JSON.stringify(doc?.notes));
+    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+    
+    res.send(JSON.stringify(data));
   }else{
     console.log(req.user?.username)
     const account = new Account<TAccount>({
@@ -100,15 +111,15 @@ app.post('/api', async (req: Request, res: Response): Promise<void> => {
       }]
     })
     await account.save()
-    const doc: TAccount | null = await Account.findOne({username: req.user?.username})
-    res.send(JSON.stringify(doc?.notes));
+    // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+    res.send(JSON.stringify(account.notes));
   }
 });
 
 app.delete('/api', async (req: Request, res: Response) => {
-  await Account.findOneAndUpdate({username: req.user?.username}, {$pull: {notes: {_id: req.body._id}}});
-  const doc: TAccount | null = await Account.findOne({username: req.user?.username})
-  res.send(doc?.notes);
+  const result = await Account.findOneAndUpdate({username: req.user?.username}, {$pull: {notes: {_id: req.body._id}}});
+  // const doc: TAccount | null = await Account.findOne({username: req.user?.username})
+  res.send();
 });
 
 const port = process.env.PORT
