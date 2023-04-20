@@ -17,7 +17,7 @@ const Account = connection.models.Account;
 const User = connection.models.User;
 
 app.use(cors({
-  origin: 'http://localhost:3000', //change before build to 'http://localhost:5000'
+  origin: 'http://localhost:5000', //change before build to 'http://localhost:5000'
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   credentials: true
 }));
