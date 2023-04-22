@@ -49,7 +49,7 @@ function Login({ auth } : {auth: Function}) {
         <span></span>
         <label>Password</label>
       </div>
-      {failedAuth && <p className='warning'>Either username or password are incorrect...</p>}
+      {failedAuth && <p className='warning'>Either username or password is incorrect...</p>}
       <div>
         <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
       </div>
