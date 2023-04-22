@@ -12,12 +12,10 @@ function Register(){
   const [check, setCheck] = useState('');
   const [registered, setRegistered] = useState(false);
   const [exists, setExists] = useState(false);
-  
-  let message: string | undefined;
 
   async function handleSubmit(){
     setExists(false);
-    await fetch('/register', {
+    const response = await fetch('/register', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -26,21 +24,17 @@ function Register(){
       },
       body: JSON.stringify(credentials)
     })
-    .then(response => response.json())
-    .then((data) => {
-      if (data?.isReg) {
-        setRegistered(true)
-      }else if (data?.msg) {
-        console.log('else if reached')
-        message = data.msg;
-        setCredentials({
-          username: '',
-          password: ''
-        })
-        setCheck('')
-        setExists(true)
-      }
-    })
+    const data = await response.json();
+    if (data?.isReg) {
+      setRegistered(true)
+    }else if (data?.msg) {
+      setCredentials({
+        username: '',
+        password: ''
+      })
+      setCheck('')
+      setExists(true)
+    }
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

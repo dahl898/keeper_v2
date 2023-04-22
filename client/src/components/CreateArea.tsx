@@ -18,7 +18,6 @@ function CreateArea( { onAdd }: {
   function handleChange(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
     const { name, value } = event.target
     setNote((prevNote: TNote): TNote => {
-      console.log(prevNote)
       return {
         ...prevNote,
         [name]: value

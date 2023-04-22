@@ -18,16 +18,16 @@ const addNote = async (newNote: TNote): Promise<void> => {
         },
         body: JSON.stringify(newNote)
       })
-    const data = await response.json()
-    setNotes((prevNotes) => {
-      console.log('usestate hook')
-      return [...prevNotes, data]
-    })      
+  const data = await response.json()
+  setNotes((prevNotes) => {
+    console.log(data)
+    console.log(prevNotes)
+    return [...prevNotes, data]
+  })      
   }
 
 const deleteNote = async (note: TNote): Promise<void> => {
-  console.log('delete clicked')
-  await fetch('/api', {
+  const response = await fetch('/api', {
     method: 'DELETE',
     mode: 'cors',
     credentials: 'include',
@@ -36,22 +36,20 @@ const deleteNote = async (note: TNote): Promise<void> => {
     },
     body: JSON.stringify(note)
   })
-  // .then(response => response.json())
-  .then(data => setNotes((prevNotes) =>{
+  setNotes((prevNotes) =>{
     return (prevNotes.filter(item => item._id !== note._id))
-  }))
+  })
 }
 
   const fetchData = async () => {
     const response = await fetch('/api', {
       credentials: 'include'
     })
-    .then (response => response.json())
-    .then (data => setNotes(data));
-    }
+    const data = await response.json()
+    setNotes(data)
+  }
 
   useEffect(() => {
-      console.log('useeffect hook')
       fetchData()
     }, []);
 

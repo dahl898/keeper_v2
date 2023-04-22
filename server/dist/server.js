@@ -77,7 +77,12 @@ app.get('*', (req, res) => {
 app.get('/api', middlewares_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const doc = yield Account.findOne({ username: (_a = req.user) === null || _a === void 0 ? void 0 : _a.username });
-    res.send(JSON.stringify(doc === null || doc === void 0 ? void 0 : doc.notes));
+    if (doc) {
+        res.send(JSON.stringify(doc === null || doc === void 0 ? void 0 : doc.notes));
+    }
+    else {
+        res.send(JSON.stringify([]));
+    }
 }));
 app.get('/login', middlewares_1.auth, (req, res) => {
     res.send(JSON.stringify({ isAuth: true }));
@@ -86,7 +91,7 @@ app.post('/login', passport_1.default.authenticate('local', { successRedirect: '
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const exUser = yield User.findOne({ username: req.body.username });
     if (exUser) {
-        res.send(JSON.stringify({ isAuth: false, msg: 'Account with such username already exists' }));
+        res.send(JSON.stringify({ isAuth: false, msg: true }));
     }
     else {
         const saltHash = (0, authFunctions_1.genPassword)(req.body.password);
@@ -100,7 +105,6 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 app.get('/login-success', (req, res) => {
-    console.log('success');
     res.send(JSON.stringify({ isAuth: true }));
 });
 app.get('/login-failure', (req, res) => {
@@ -117,7 +121,7 @@ app.get('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
 }));
 app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d;
+    var _b, _c;
     const id = crypto_1.default.randomBytes(16).toString('hex');
     const data = yield Object.assign(Object.assign({}, req.body), { _id: id });
     const exAccount = yield Account.findOneAndUpdate({ username: (_b = req.user) === null || _b === void 0 ? void 0 : _b.username }, { $push: { notes: data } });
@@ -125,9 +129,8 @@ app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.send(JSON.stringify(data));
     }
     else {
-        console.log((_c = req.user) === null || _c === void 0 ? void 0 : _c.username);
         const account = new Account({
-            username: (_d = req.user) === null || _d === void 0 ? void 0 : _d.username,
+            username: (_c = req.user) === null || _c === void 0 ? void 0 : _c.username,
             notes: [{
                     _id: id,
                     title: req.body.title,
@@ -135,12 +138,12 @@ app.post('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }]
         });
         yield account.save();
-        res.send(JSON.stringify(account.notes));
+        res.send(JSON.stringify(data));
     }
 }));
 app.delete('/api', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _e;
-    const result = yield Account.findOneAndUpdate({ username: (_e = req.user) === null || _e === void 0 ? void 0 : _e.username }, { $pull: { notes: { _id: req.body._id } } });
+    var _d;
+    const result = yield Account.findOneAndUpdate({ username: (_d = req.user) === null || _d === void 0 ? void 0 : _d.username }, { $pull: { notes: { _id: req.body._id } } });
     res.send();
 }));
 const port = process.env.PORT;

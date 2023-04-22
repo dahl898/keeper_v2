@@ -17,14 +17,13 @@ function App() {
       mode: 'cors',
       credentials: 'include'
     })
-    .then (response => response.json())
-    .then ((data) => {
-      setIsAuth(data?.isAuth)
-      setLoading(false)
-    });
-    }
+    const data = await response.json();
+    setIsAuth(data?.isAuth)
+    setLoading(false)
+  }
 
-    fetchData()
+  fetchData()
+
   if (loading) {
     return(
     <div className='spinner'></div>
@@ -38,13 +37,6 @@ function App() {
       <Login auth={setIsAuth}/>
     )
   }
-  // return (
-      
-    
-  //     {loading ? <div className='spinner'></div> : isAuth ? <Page /> : <Login auth={setIsAuth}/>}
-  // )
-
-  
 }
 
 export default App;

@@ -11,7 +11,7 @@ function Login({ auth } : {auth: Function}) {
   const [failedAuth, setFailedAuth] = useState(false);
 
   async function handleSubmit(){
-    await fetch('/login', {
+    const response = await fetch('/login', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -20,11 +20,9 @@ function Login({ auth } : {auth: Function}) {
       },
       body: JSON.stringify(credentials)
     })
-    .then(response => response.json())
-    .then((data) => {
-      auth(data.isAuth);
-      setFailedAuth(true);
-    })
+    const data = await response.json();
+    auth(data?.isAuth);
+    setFailedAuth(true);
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -57,7 +55,6 @@ function Login({ auth } : {auth: Function}) {
       </div>
       <div className='signup-link'>
         New here? <a onClick={() => setRegistered(false)}>Sign up</a>
-        {/* <button type="button" onClick={() => setRegistered(false)}>Register</button> */}
       </div>
     </form>
     </div>
@@ -68,36 +65,6 @@ function Login({ auth } : {auth: Function}) {
       <Register />
     )
   }
-  // return(
-  // <div className='login'>
-  //   {registered ? 
-  //   (<div>
-  //     <h1>Login</h1>
-  //   <form>
-  //     <div className="txtField">
-  //       <input type="text" name="username" value={credentials.username} onChange={handleChange} required/>
-  //       <span></span>
-  //       <label>Username</label>
-  //     </div>
-  //     <div className="txtField">
-  //       <input type="password" name="password" value={credentials.password} onChange={handleChange} required/>
-  //       <span></span>
-  //       <label>Password</label>
-  //     </div>
-  //     <div>
-  //       <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
-  //     </div>
-  //     <div className='signup-link'>
-  //       New here? <a onClick={() => setRegistered(false)}>Sign up</a>
-  //       {/* <button type="button" onClick={() => setRegistered(false)}>Register</button> */}
-  //     </div>
-  //   </form>
-  //   </div>)
-  //   :
-  //   <Register />
-  // }
-  // </div>
-  // )
 }
 
 export default Login

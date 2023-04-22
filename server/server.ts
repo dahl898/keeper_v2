@@ -17,7 +17,7 @@ const Account = connection.models.Account;
 const User = connection.models.User;
 
 app.use(cors({
-  origin: 'http://localhost:5000', //change before build to 'http://localhost:5000'
+  origin: 'http://localhost:5000',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
   credentials: true
 }));
@@ -48,7 +48,12 @@ app.get('*', (req: Request, res: Response) => {
 
 app.get('/api', auth, async (req: Request, res: Response) => {
     const doc: TAccount | null = await Account.findOne({username: req.user?.username})
-    res.send(JSON.stringify(doc?.notes))
+    if (doc) {
+      res.send(JSON.stringify(doc?.notes))
+    }else{
+      res.send(JSON.stringify([]))
+    }
+    
 }); 
 
 app.get('/login', auth, (req: Request, res: Response) => {
@@ -60,7 +65,7 @@ app.post('/login', passport.authenticate('local', {successRedirect: 'login-succe
 app.post('/register', async (req: Request, res: Response) => {
   const exUser: TUser | null = await User.findOne({username: req.body.username})
   if (exUser) {
-    res.send(JSON.stringify({isAuth: false, msg: 'Account with such username already exists'}))
+    res.send(JSON.stringify({isAuth: false, msg: true}))
   }else{
     const saltHash = genPassword(req.body.password)
     const user = new User <TUser>({
@@ -74,7 +79,6 @@ app.post('/register', async (req: Request, res: Response) => {
 });
 
 app.get('/login-success', (req: Request, res: Response) => {
-  console.log('success')
   res.send(JSON.stringify({isAuth: true}))
 })
 
@@ -99,7 +103,6 @@ app.post('/api', async (req: Request, res: Response): Promise<void> => {
   if (exAccount){
     res.send(JSON.stringify(data));
   }else{
-    console.log(req.user?.username)
     const account = new Account<TAccount>({
       username: req.user?.username,
       notes: [{
@@ -109,7 +112,7 @@ app.post('/api', async (req: Request, res: Response): Promise<void> => {
       }]
     })
     await account.save()
-    res.send(JSON.stringify(account.notes));
+    res.send(JSON.stringify(data));
   }
 });
 

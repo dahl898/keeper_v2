@@ -7,15 +7,13 @@ function Header({ setIsAuth } : {setIsAuth: Function}) {
   const [logout, setLogout] = useState(false);
 
   async function handleClick () {
-    await fetch('/logout', {
+    const response = await fetch('/logout', {
       credentials: 'include',
       mode: 'cors'
     })
-    .then((response) => response.json())
-    .then((data) => {
-      setLogout(data.logout)
-      setIsAuth(false)
-    })
+    const data = await response.json();
+    setLogout(data.logout)
+    setIsAuth(false)
   }
   return(
     <header>
