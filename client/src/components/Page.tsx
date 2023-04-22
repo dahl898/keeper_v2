@@ -20,8 +20,6 @@ const addNote = async (newNote: TNote): Promise<void> => {
       })
   const data = await response.json()
   setNotes((prevNotes) => {
-    console.log(data)
-    console.log(prevNotes)
     return [...prevNotes, data]
   })      
   }
