@@ -40,11 +40,11 @@ import './passport/config'
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, '../../client/build')));
+// app.use(express.static(path.resolve(__dirname, '../../client/build')));
 
-app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, '../../client/build'))
-});
+// app.get('*', (req: Request, res: Response) => {
+//   res.sendFile(path.resolve(__dirname, '../../client/build'))
+// });
 
 app.get('/api', auth, async (req: Request, res: Response) => {
     const doc: TAccount | null = await Account.findOne({username: req.user?.username})

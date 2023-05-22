@@ -35,28 +35,33 @@ function Login({ auth } : {auth: Function}) {
 
   if (registered) {
     return(
+    <div className="background">
+    <div className='login-container'>
       <div className='login'>
-    <div>
-      <h1>Log in!</h1>
-    <form>
-      <div className="txtField">
-        <input type="text" name="username" value={credentials.username} onChange={handleChange} required/>
-        <span></span>
-        <label>Username</label>
+        <div>
+          <h1>Log in</h1>
+          <form>
+            <div className="txtField">
+              <input type="text" name="username" value={credentials.username} onChange={handleChange} required/>
+              <span></span>
+              <label>Username</label>
+            </div>
+            <div className="txtField">
+              <input type="password" name="password" value={credentials.password} onChange={handleChange} required/>
+              <span></span>
+              <label>Password</label>
+            </div>
+
+            {failedAuth && <p className='warning'>Either username or password is incorrect...</p>}
+            <div className='btn-container'>
+              <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
+            </div>
+            <div className='signup-link'>
+              New here? <a onClick={() => setRegistered(false)}>Sign up</a>
+            </div>
+          </form>
+        </div>
       </div>
-      <div className="txtField">
-        <input type="password" name="password" value={credentials.password} onChange={handleChange} required/>
-        <span></span>
-        <label>Password</label>
-      </div>
-      {failedAuth && <p className='warning'>Either username or password is incorrect...</p>}
-      <div>
-        <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
-      </div>
-      <div className='signup-link'>
-        New here? <a onClick={() => setRegistered(false)}>Sign up</a>
-      </div>
-    </form>
     </div>
     </div>
     )

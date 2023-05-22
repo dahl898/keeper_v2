@@ -47,7 +47,6 @@ const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const passport_1 = __importDefault(require("passport"));
 const middlewares_1 = require("./middlewares/middlewares");
 const authFunctions_1 = require("./utils/authFunctions");
-const path_1 = __importDefault(require("path"));
 const Account = config_1.default.models.Account;
 const User = config_1.default.models.User;
 app.use((0, cors_1.default)({
@@ -70,10 +69,10 @@ app.use((0, express_session_1.default)({
 require("./passport/config");
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-app.use(express_1.default.static(path_1.default.resolve(__dirname, '../../client/build')));
-app.get('*', (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, '../../client/build'));
-});
+// app.use(express.static(path.resolve(__dirname, '../../client/build')));
+// app.get('*', (req: Request, res: Response) => {
+//   res.sendFile(path.resolve(__dirname, '../../client/build'))
+// });
 app.get('/api', middlewares_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const doc = yield Account.findOne({ username: (_a = req.user) === null || _a === void 0 ? void 0 : _a.username });

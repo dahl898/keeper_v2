@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Montserrat:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Nunito:wght@300&family=Roboto:wght@300&display=swap');
 @keyframes spinner {
   to {transform: rotate(360deg);}
 }
@@ -11,19 +11,30 @@
 }
 
 html, button {
-  font-family: 'Delicious Handrawn';
+  font-family: 'Nunito';
+}
+
+html {
+  height: 100%;
 }
 
 body {
-  background-color: #fcfcfc;
-  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
   padding-bottom: 80px;
+  min-height: 100%;
+  background-image: linear-gradient(
+      to right, 
+      rgba(64, 224, 208, .7),
+      rgba(255, 140, 0, .7), 
+      rgba(255, 0, 128, .7)
+    ), 
+  url("https://www.transparenttextures.com/patterns/cubes.png");
+  display: block;
 }
-
 
 header {
   font-size: large;
-  background-color: #f5ba13;
+  background-color: rgba(17, 153, 142, .3);
+  opacity: .7;
   padding: 16px 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   margin: auto -16px;
@@ -38,7 +49,7 @@ header h1 {
   position: relative;
   width: 480px;
   margin: 30px auto 20px auto;
-  background: #fff;
+  background-color: rgba(255, 255, 255, .8);
   padding: 15px;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
@@ -55,17 +66,24 @@ form.create-note textarea {
   font-size: 1.2em;
   font-family: inherit;
   resize: none;
+  background-color: rgba(255, 255, 255, .1);
 }
 
 form.create-note button:hover {
-  background-color: rgb(52, 139, 85);
+  /* background-image: linear-gradient(
+      to right bottom, 
+      rgba(64, 224, 208, 1),
+      rgba(255, 140, 0, 1), 
+      rgba(255, 0, 128, 1)
+    ); */
+  background-color: rgb(48, 167, 155);
 }
 
 form.create-note button {
   position: absolute;
   right: 18px;
   bottom: -18px;
-  background: #f5ba13;
+  background-color: rgba(255, 140, 0, 1);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -80,8 +98,8 @@ form.create-note button {
   width: 240px;
   float: left;
   border-radius: 7px;
-  background: #fff;
-  box-shadow: 0 2px 5px #ccc;
+  background-color: rgba(255, 255, 255, .8);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
   margin: 16px;
   padding: 10px;
 }
@@ -128,50 +146,47 @@ form.create-note button {
   animation: spinner .6s linear infinite;
 }
 
-.login {
+.login-container,
+.register-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20%;
-  border-radius: 10px;
-  background-color: #F9F9F9;
-  border: 1px solid;
-  border-color: #f5ba13;
+  width: 18rem;
 }
 
-.login h1 {
-  text-align: center;
-  padding: 20px 0 20px 0;
-  border-bottom: 1px solid #f5ba13;
-  color: #666666;
-}
-
+.login,
 .register {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20%;
+  width: 100%;
   border-radius: 10px;
   background-color: #F9F9F9;
   border: 1px solid;
   border-color: #f5ba13;
 }
 
-.register form {
-  padding: 0 40px;
-  box-sizing: border-box;
+@media (max-width: 900px) {
+  .login-container,
+  .register-container {
+    width: 17rem;
+  }
 }
 
-.register h1 {
+@media (max-width: 600px) {
+  .login-container, 
+  .register-container {
+    width: 15rem;
+  }
+}
+
+
+.login h1, .register h1 {
   text-align: center;
   padding: 20px 0 20px 0;
   border-bottom: 1px solid #f5ba13;
-  color: #666666;
+  color: #7d7d7d;
 }
 
-.login form {
+.login form, .register form {
   padding: 0 40px;
   box-sizing: border-box;
 }
@@ -191,6 +206,7 @@ form .txtField {
   border: none;
   background: none;
   outline: none;
+  color: #7d7d7d;
 }
 
 .txtField label {
@@ -210,14 +226,15 @@ form .txtField {
   top: 40px;
   left: 0;
   height: 2px;
-  background: #2691d9;
+  background: #37bfb1;
   transition: .5s;
 }
 
 .txtField input:focus ~ label,
 .txtField input:valid ~ label {
   top: -5px;
-  color: #2691d9;
+  color: #37bfb1;
+  font-size: 12px;
 }
 
 .txtField input:focus ~ span::before,
@@ -225,22 +242,26 @@ form .txtField {
   width: 100%;
 }
 
-.login-btn {
-  width: 100%;
-  height: 40px;
-  border: 1px solid;
-  background: #f5ba13;
+.login-btn, .register-btn {
+  width: 80%;
+  height: 100%;
+  border: none;
+  background-image: linear-gradient(to right, rgba(253, 200, 48, .8), rgba(243, 115, 53, .8));
   border-radius: 25px;
   font-size: 18px;
   font-weight: 700;
   color: #fff;
   cursor: pointer;
-  outline: none;
+  transition: all .1s;
+}
+.btn-container {
+  text-align: center;
+  height: 45px;
+  padding: 5px;
 }
 
-.login-btn:hover {
-  border-color: #f5ba13;
-  transition: .5s;
+.login-btn:hover, .register-btn:hover {
+  transform: scale(1.02);
 }
 
 .signup-link {
@@ -250,29 +271,19 @@ form .txtField {
  color: #666666;
 }
 
-.signup-link a{
+.login-link a, .signup-link a{
   color: #2691d9;
   text-decoration: none;
   cursor: pointer;
 }
 
-.signup-link a:hover{
+.login-link a:hover, .signup-link a:hover{
   text-decoration: underline;
 }
 
 .login-link {
   text-align: center;
   margin: 20px 0 20px 0;
-}
-
-.login-link a{
-  color: #2691d9;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.login-link a:hover{
-  text-decoration: underline;
 }
 
 .warning {
@@ -294,8 +305,9 @@ form .txtField {
 }
 
 .exit-button {
-  position: relative;
-  margin-left: 1350px;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
   color: #fff;
   font-size: large;
 }
